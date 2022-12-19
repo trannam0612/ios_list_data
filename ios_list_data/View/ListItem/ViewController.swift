@@ -18,11 +18,20 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         listItemViewModel.fetchData()
+        
+        view.backgroundColor = .red
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        
+        DispatchQueue.main.async {
+                   self.tableView.reloadData()
+               }
     }
 }
 
 extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("count:", listItemViewModel.listArticle.count)
         return listItemViewModel.listArticle.count
     }
     
@@ -30,8 +39,7 @@ extension ViewController: UITableViewDataSource{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ItemTableViewCell", for: indexPath) as? ItemTableViewCell else { return UITableViewCell() }
         
         let item = listItemViewModel.listArticle[indexPath.row]
-        
-        cell.lableViewItem.text = item.title
+        cell.bindData(article: item)
         return cell
     }
 }

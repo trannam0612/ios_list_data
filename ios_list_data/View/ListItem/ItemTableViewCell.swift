@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Kingfisher
+
 
 class ItemTableViewCell: UITableViewCell {
 
@@ -19,6 +21,16 @@ class ItemTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
+    }
+    
+    func bindData(article: Article) {
+        if let title = article.title {
+            lableViewItem.text = title
+        }
+        if let urlImage = article.urlToImage {
+            let url = URL(string: urlImage)
+            imageViewItem.kf.setImage(with: url)
+        }
     }
     
     

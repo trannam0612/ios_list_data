@@ -12,7 +12,7 @@ class APIHandler{
     static let sharedIntance = APIHandler()
     
     
-    func fetchingAPIData() -> [Article]{
+    func fetchingAPIData(completion:@escaping(Result<[Article], Error>)-> Void){
         print("fetchingAPIData")
         let decoder : JSONDecoder = {
             let decoder = JSONDecoder()
@@ -20,42 +20,42 @@ class APIHandler{
             return decoder
         }()
         
-        var listArticle:[Article] = [];
-        let url = "https://newsapi.org/v2/everything?q=tesla&from=2022-11-15&sortBy=publishedAt&apiKey=f11b6f9931e64e4586401e59a976989c"
-        AF
+        
+        let url = "https://newsapi.org/v2/everything?q=tesla&from=2022-11-19&sortBy=publishedAt&apiKey=f11b6f9931e64e4586401e59a976989c"
+        _ = AF
             .request(url)
             .validate(statusCode: 200..<300)
             .responseString(completionHandler:  {
                 str in print("str:",str)
             })
-            .responseDecodable(of: ListItemModel.self, decoder: decoder){
-                
-                
+            .responseDecodable(of: ListItemModel.self, decoder: decoder)
+        {
                 (response) in
                 switch response.result {
                 case .success(let data):
-                    
-                    
                     do {
-                         let dataResponse =  data.articles!
-                        listArticle = dataResponse
-                        print("listArticle: \(listArticle)")
-                    } catch {
+                        let dataResponse =  data.articles!
+                        DispatchQueue.main.async {
+                            completion(.success(dataResponse))
+                        }
+//                        completion(.success(dataResponse))
+                        print("listArticle1: \(dataResponse)")
+                    }catch{
+//                        completion(.failure(error))
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
                         print("error catch: \(error.localizedDescription)")
                     }
                 case .failure(let error):
+                    completion(.failure(error))
                     print("error failure: \(error.localizedDescription)")
                     
-                    listArticle = []
                 }
-            }
+            }.resume()
         
-        print("listArticle123: \(listArticle)")
-        return listArticle
         
     }
-    
-    
 }
 
 
