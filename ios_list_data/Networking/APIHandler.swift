@@ -16,7 +16,7 @@ class APIHandler{
         print("fetchingAPIData")
         let decoder : JSONDecoder = {
             let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
+//            decoder.keyDecodingStrategy = .convertFromSnakeCase
             return decoder
         }()
         
@@ -45,10 +45,12 @@ class APIHandler{
                         DispatchQueue.main.async {
                             completion(.failure(error))
                         }
+                        print("String(describing: error)", String(describing: error))
                         print("error catch: \(error.localizedDescription)")
                     }
                 case .failure(let error):
                     completion(.failure(error))
+                    print("String(describing: error)", String(describing: error))
                     print("error failure: \(error.localizedDescription)")
                     
                 }

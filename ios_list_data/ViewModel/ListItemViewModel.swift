@@ -8,12 +8,18 @@
 import Foundation
 import Alamofire
 
+protocol ListItemDelegate {
+    func didLoad()
+}
+
 
 class ListItemViewModel {
     
     var apiHandler = APIHandler.sharedIntance
     
-    var listArticle :[Article] = []
+    var listArticle = [Article]()
+    
+    var delegate: ListItemDelegate?
     
     
     func fetchData(){
@@ -29,6 +35,7 @@ class ListItemViewModel {
             case .success(let dataItem):
                 print("success1: \(dataItem)")
                 self.listArticle = dataItem
+                self.delegate?.didLoad()
                 print("listArticle1: \(self.listArticle.count)")
             }
         };

@@ -20,13 +20,15 @@ struct Article: Codable {
     var description: String? = nil
     var url: String? = nil
     var urlToImage: String? = nil
-    var publishedAt: Date? = nil
+//    var publishedAt: Date? = nil
     var content: String? = nil
     
     enum CodingKeys: String, CodingKey {
         case source, author, title
         case description = "description"
-        case url, urlToImage = "url_to_image", publishedAt = "published_at", content
+        case url, urlToImage = "urlToImage"
+//        , publishedAt = "published_at",
+        case content
     }
 }
 

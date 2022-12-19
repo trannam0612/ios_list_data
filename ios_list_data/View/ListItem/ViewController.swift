@@ -7,7 +7,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,ListItemDelegate {
+        func didLoad() {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -17,9 +23,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        listItemViewModel.delegate = self
         listItemViewModel.fetchData()
         
-        view.backgroundColor = .red
     }
     override func viewDidAppear(_ animated: Bool) {
         
