@@ -6,24 +6,25 @@
 //
 
 import UIKit
+import Kingfisher
 
 class DetailViewController: UIViewController {
-
+    @IBOutlet weak var imageViewItem: UIImageView!
+    
+    @IBOutlet weak var titleItem: UILabel!
+    var titleArticles = ""
+    var descriptionArticles = ""
+    var imageUrl = ""
     override func viewDidLoad() {
+        
+        print("viewDidLoad", titleArticles)
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+//        titleItem?.text = "titleArticles"
+        
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
 }

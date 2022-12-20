@@ -21,7 +21,7 @@ class APIHandler{
         }()
         
         
-        let url = "https://newsapi.org/v2/everything?q=tesla&from=2022-11-19&sortBy=publishedAt&apiKey=f11b6f9931e64e4586401e59a976989c"
+        let url = "https://newsapi.org/v2/everything?q=tesla&from=2022-11-20&sortBy=publishedAt&apiKey=f11b6f9931e64e4586401e59a976989c"
         _ = AF
             .request(url)
             .validate(statusCode: 200..<300)

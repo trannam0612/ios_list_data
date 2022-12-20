@@ -51,15 +51,18 @@ extension ViewController: UITableViewDataSource{
 }
 
 extension ViewController:  UITableViewDelegate{
-    
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = listItemViewModel.listArticle[indexPath.row]
+        let storyboard = UIStoryboard(name: "DetailItem", bundle: nil)
+
+        let controller = storyboard.instantiateViewController(withIdentifier: "detailViewController") as! DetailViewController
+        let vc = storyboard.instantiateViewController(identifier: "detailViewController") as! DetailViewController
         
-        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "detailViewController")as? DetailViewController{
-            
-            
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        vc.titleArticles = "item.title"
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+        
+        
     }
 }
 

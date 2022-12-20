@@ -15,11 +15,11 @@
 		3DA8A4B22943147E00011D9B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DA8A4B02943147E00011D9B /* LaunchScreen.storyboard */; };
 		3DA8A4BF29432EA800011D9B /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8A4BE29432EA800011D9B /* ItemTableViewCell.swift */; };
 		3DA8A4C129433BCA00011D9B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8A4C029433BCA00011D9B /* DetailViewController.swift */; };
-		3DA8A4C529433CCE00011D9B /* DetailItem.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DA8A4C429433CCE00011D9B /* DetailItem.storyboard */; };
 		3DA8A4CB29482C8700011D9B /* ListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8A4CA29482C8700011D9B /* ListItemViewModel.swift */; };
 		3DA8A4CD294835AF00011D9B /* APIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8A4CC294835AF00011D9B /* APIHandler.swift */; };
 		3DA8A4D129487A1100011D9B /* ListItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8A4D029487A1100011D9B /* ListItemModel.swift */; };
 		D3A735A19969EB109D8D1FAE /* Pods_ios_list_data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9B5D0E37250132B6D449980 /* Pods_ios_list_data.framework */; };
+		E6E6B29E295151450002BEDB /* DetailItem.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DA8A4C429433CCE00011D9B /* DetailItem.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -211,8 +211,8 @@
 			files = (
 				3DA8A4B22943147E00011D9B /* LaunchScreen.storyboard in Resources */,
 				3DA8A4AF2943147E00011D9B /* Assets.xcassets in Resources */,
+				E6E6B29E295151450002BEDB /* DetailItem.storyboard in Resources */,
 				3DA8A4AD2943147D00011D9B /* Main.storyboard in Resources */,
-				3DA8A4C529433CCE00011D9B /* DetailItem.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

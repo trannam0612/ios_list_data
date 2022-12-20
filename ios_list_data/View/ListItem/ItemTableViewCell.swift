@@ -13,15 +13,25 @@ class ItemTableViewCell: UITableViewCell {
     
     @IBOutlet weak var lableViewItem: UILabel!
     @IBOutlet weak var imageViewItem: UIImageView!
+    @IBOutlet weak var createAtItem: UILabel!
+    let dateFormatter = DateFormatter()
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        imageViewItem.layer.cornerRadius = 20
+        //        imageViewItem.layer.borderWidth = 1
+        //        imageViewItem.contentMode = UIView.ContentMode.scaleAspectFit
         // Initialization code
     }
+    
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
     }
+    
+    
     
     func bindData(article: Article) {
         if let title = article.title {
@@ -31,9 +41,15 @@ class ItemTableViewCell: UITableViewCell {
         if let urlImage = article.urlToImage {
             if let url = (URL(string: urlImage)){
                 imageViewItem.kf.indicatorType = .activity
-                imageViewItem.kf.setImage(with: url, placeholder: nil, options: [.transition(.fade(0.7))], progressBlock: nil)
-            } 
+                imageViewItem.kf.setImage(with: url, placeholder: nil, options: [.transition(.fade(1.0))], progressBlock: nil)
+            }
         }
+        
+        if let createAt = article.publishedAt {
+            createAtItem.text = createAt
+        }
+        
+        
     }
     
     
