@@ -9,22 +9,29 @@ import UIKit
 import Kingfisher
 
 class DetailViewController: UIViewController {
-    @IBOutlet weak var imageViewItem: UIImageView!
     
     @IBOutlet weak var titleItem: UILabel!
+    @IBOutlet weak var imageItem: UIImageView!
+    @IBOutlet weak var descriptionItem: UILabel!
+    
     var titleArticles = ""
     var descriptionArticles = ""
     var imageUrl = ""
+    
     override func viewDidLoad() {
-        
-        print("viewDidLoad", titleArticles)
         super.viewDidLoad()
         
-//        titleItem?.text = "titleArticles"
+        titleItem.text = titleArticles
+        descriptionItem.text = descriptionArticles
+        
+        if let url = (URL(string: imageUrl)){
+            imageItem.kf.indicatorType = .activity
+            imageItem.kf.setImage(with: url, placeholder: nil, options: [.transition(.fade(1.0))], progressBlock: nil)
+        }
         
     }
     
-
     
-
+    
+    
 }

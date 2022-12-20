@@ -21,7 +21,6 @@ class ListItemViewModel {
     
     var delegate: ListItemDelegate?
     
-    
     func fetchData(){
         print("fetchData")
         apiHandler.fetchingAPIData{
@@ -33,13 +32,10 @@ class ListItemViewModel {
                 print("error: \(error)")
                 
             case .success(let dataItem):
-                print("success1: \(dataItem)")
                 self.listArticle = dataItem
                 self.delegate?.didLoad()
-                print("listArticle1: \(self.listArticle.count)")
             }
         };
-        print("listArticle123: \(self.listArticle.count)")
         
     }
     

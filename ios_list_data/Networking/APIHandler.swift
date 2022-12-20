@@ -11,15 +11,12 @@ import Alamofire
 class APIHandler{
     static let sharedIntance = APIHandler()
     
-    
     func fetchingAPIData(completion:@escaping(Result<[Article], Error>)-> Void){
         print("fetchingAPIData")
         let decoder : JSONDecoder = {
             let decoder = JSONDecoder()
-//            decoder.keyDecodingStrategy = .convertFromSnakeCase
             return decoder
         }()
-        
         
         let url = "https://newsapi.org/v2/everything?q=tesla&from=2022-11-20&sortBy=publishedAt&apiKey=f11b6f9931e64e4586401e59a976989c"
         _ = AF
@@ -30,31 +27,28 @@ class APIHandler{
             })
             .responseDecodable(of: ListItemModel.self, decoder: decoder)
         {
-                (response) in
-                switch response.result {
-                case .success(let data):
-                    do {
-                        let dataResponse =  data.articles!
-                        DispatchQueue.main.async {
-                            completion(.success(dataResponse))
-                        }
-//                        completion(.success(dataResponse))
-                        print("listArticle1: \(dataResponse)")
-                    }catch{
-//                        completion(.failure(error))
-                        DispatchQueue.main.async {
-                            completion(.failure(error))
-                        }
-                        print("String(describing: error)", String(describing: error))
-                        print("error catch: \(error.localizedDescription)")
+            (response) in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let dataResponse =  data.articles!
+                    DispatchQueue.main.async {
+                        completion(.success(dataResponse))
                     }
-                case .failure(let error):
-                    completion(.failure(error))
+                }catch{
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
                     print("String(describing: error)", String(describing: error))
-                    print("error failure: \(error.localizedDescription)")
-                    
+                    print("error catch: \(error.localizedDescription)")
                 }
-            }.resume()
+            case .failure(let error):
+                completion(.failure(error))
+                print("String(describing: error)", String(describing: error))
+                print("error failure: \(error.localizedDescription)")
+                
+            }
+        }.resume()
         
         
     }
