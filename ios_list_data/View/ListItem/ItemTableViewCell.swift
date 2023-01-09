@@ -27,19 +27,13 @@ class ItemTableViewCell: UITableViewCell {
     }
     
     func bindData(article: Article) {
-        if let title = article.title {
-            lableViewItem.text = title
+        lableViewItem.text = article.title
+        
+        if let url = (URL(string: article.urlToImage ?? "")){
+            imageViewItem.kf.indicatorType = .activity
+            imageViewItem.kf.setImage(with: url, placeholder: nil, options: [.transition(.fade(1.0))], progressBlock: nil)
         }
         
-        if let urlImage = article.urlToImage {
-            if let url = (URL(string: urlImage)){
-                imageViewItem.kf.indicatorType = .activity
-                imageViewItem.kf.setImage(with: url, placeholder: nil, options: [.transition(.fade(1.0))], progressBlock: nil)
-            }
-        }
-        
-        if let createAt = article.publishedAt {
-            createAtItem.text = createAt
-        }
+        createAtItem.text = article.publishedAt
     }
 }

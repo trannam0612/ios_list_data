@@ -11,14 +11,13 @@ import Alamofire
 class APIHandler{
     static let sharedIntance = APIHandler()
     
-    func fetchingAPIData(completion:@escaping(Result<[Article], Error>)-> Void){
+    func fetchingAPIData(keyWord: String, time:String,sort: String?, completion:@escaping(Result<ListItemModel, Error>)-> Void){
         print("fetchingAPIData")
         let decoder : JSONDecoder = {
             let decoder = JSONDecoder()
             return decoder
         }()
-        
-        let url = "https://newsapi.org/v2/everything?q=tesla&from=2022-11-20&sortBy=publishedAt&apiKey=f11b6f9931e64e4586401e59a976989c"
+        let url = "https://newsapi.org/v2/everything?q=\(keyWord)&from=\(time)&sortBy=\(sort ?? publishAt)&apiKey=\(API_KEY)"
         _ = AF
             .request(url)
             .validate(statusCode: 200..<300)
@@ -31,14 +30,9 @@ class APIHandler{
             switch response.result {
             case .success(let data):
                 do {
-                    let dataResponse =  data.articles!
-                    DispatchQueue.main.async {
-                        completion(.success(dataResponse))
-                    }
+                        completion(.success(data))
                 }catch{
-                    DispatchQueue.main.async {
                         completion(.failure(error))
-                    }
                     print("String(describing: error)", String(describing: error))
                     print("error catch: \(error.localizedDescription)")
                 }
@@ -48,7 +42,7 @@ class APIHandler{
                 print("error failure: \(error.localizedDescription)")
                 
             }
-        }.resume()
+        }
         
         
     }

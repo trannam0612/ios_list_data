@@ -11,30 +11,87 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var searchBar: UISearchBar!
     var listItemViewModel = ListItemViewModel()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         listItemViewModel.delegate = self
-        listItemViewModel.fetchData()
+        fetchData(keyWord: "Apple")
+        searchBar.delegate = self
+        self.searchBar.endEditing(true)
+        self.hideKeyboardWhenTappedAround()
+    }
+    
+    func showLoading(){
+        print("showLoading")
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func showErrorAlert(errorMessage:String){
+        print("showErrorAlert")
+        let alert = UIAlertController(title: nil, message: errorMessage , preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: {_ in
+            self.fetchData(keyWord: nil)
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func dismissAlert(){
+        print("dismissAlert")
+        self.dismiss(animated: false,completion: nil)
+    }
+    
+    
+    func fetchData(keyWord: String?) {
+        print("fetchData")
+        self.showLoading()
+        self.listItemViewModel.fetchData(keyWord:keyWord ?? "Apple", time: nil)
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
+    
 }
 
 extension ViewController: ListItemDelegate{
     func didLoad() {
-        print("didLoad")
+        print("delegate didLoad")
         DispatchQueue.main.async {
+            self.dismissAlert()
             self.tableView.reloadData()
         }
+    }
+    
+    func failLoad() {
+        print("delegate failLoad")
+        self.dismissAlert()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.showErrorAlert(errorMessage: self.listItemViewModel.errorMessage ?? "")
+        }
+        
     }
 }
 
@@ -59,14 +116,30 @@ extension ViewController:  UITableViewDelegate{
         let item = listItemViewModel.listArticle[indexPath.row]
         let storyboard = UIStoryboard(name: "DetailItem", bundle: nil)
         
-        let vc = storyboard.instantiateViewController(identifier: "detailViewController") as! DetailViewController
-        
-        vc.modalPresentationStyle = .fullScreen
-        vc.titleArticles = item.title ?? ""
-        vc.descriptionArticles = item.description ?? ""
-        vc.imageUrl = item.urlToImage ?? ""
-        
-        self.navigationController?.pushViewController(vc, animated: true)
+        if let resultController = storyboard.instantiateViewController(identifier: "detailViewController") as? DetailViewController {
+            resultController.article = item
+            
+            self.navigationController?.pushViewController(resultController, animated: true)        }
     }
 }
 
+
+extension ViewController:UISearchBarDelegate{
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        fetchData(keyWord: searchText)
+        print("searchText:\(searchText)")
+    }
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}

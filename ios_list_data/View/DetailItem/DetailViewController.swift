@@ -14,17 +14,15 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var imageItem: UIImageView!
     @IBOutlet weak var descriptionItem: UILabel!
     
-    var titleArticles = ""
-    var descriptionArticles = ""
-    var imageUrl = ""
+    var article:Article = Article()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleItem.text = titleArticles
-        descriptionItem.text = descriptionArticles
+        titleItem.text = article.title
+        descriptionItem.text = article.description
         
-        if let url = (URL(string: imageUrl)){
+        if let url = (URL(string: article.urlToImage ?? "")){
             imageItem.kf.indicatorType = .activity
             imageItem.kf.setImage(with: url, placeholder: nil, options: [.transition(.fade(1.0))], progressBlock: nil)
         }

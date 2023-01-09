@@ -7,26 +7,27 @@ import Foundation
 
 // MARK: - ListItemModel
 struct ListItemModel: Codable {
-    var status: String? = nil
-    var totalResults: Int? = nil
-    var articles: [Article]? = nil
+    var status: String?
+    var totalResults: Int?
+    var articles: [Article]?
 }
 
 // MARK: - Article
 struct Article: Codable {
-    var source: Source? = nil
-    var author: String? = nil
-    var title : String? = nil
-    var description: String? = nil
-    var url: String? = nil
-    var urlToImage: String? = nil
-    var publishedAt: String? = nil
-    var content: String? = nil
+    var source: Source?
+    var author: String?
+    var title : String?
+    var description: String?
+    var url: String?
+    var urlToImage: String?
+    var publishedAt: String?
+    var content: String?
     
     enum CodingKeys: String, CodingKey {
         case source, author, title
         case description = "description"
-        case url, urlToImage = "urlToImage"
+        case url
+        case urlToImage = "urlToImage"
         case publishedAt = "publishedAt"
         case content
     }
