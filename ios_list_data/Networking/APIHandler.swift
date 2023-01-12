@@ -1,51 +1,45 @@
 //
-//  APIHandler.swift
+//  APIRepository.swift
 //  ios_list_data
 //
-//  Created by Nam on 13/12/2022.
+//  Created by Nam  Trần on 09/01/2023.
 //
 
 import Foundation
 import Alamofire
 
-class APIHandler{
+struct APIHandler{
     static let sharedIntance = APIHandler()
-    
-    func fetchingAPIData(keyWord: String, time:String,sort: String?, completion:@escaping(Result<ListItemModel, Error>)-> Void){
-        print("fetchingAPIData")
-        let decoder : JSONDecoder = {
-            let decoder = JSONDecoder()
-            return decoder
-        }()
-        let url = "https://newsapi.org/v2/everything?q=\(keyWord)&from=\(time)&sortBy=\(sort ?? publishAt)&apiKey=\(API_KEY)"
-        _ = AF
-            .request(url)
-            .validate(statusCode: 200..<300)
-            .responseString(completionHandler:  {
-                str in print("str:",str)
-            })
-            .responseDecodable(of: ListItemModel.self, decoder: decoder)
-        {
-            (response) in
+    func request<T: Decodable>(_ method: HTTPMethod
+                               , _ URLString: String
+                               , parameters: Parameters? = [:]
+                               , headers: [String : String]? = [:],
+                               completion:@escaping (T?) -> Void
+                               , failure: @escaping (Error?) -> Void
+                               ,model: T.Type
+    ) {
+        let url = "https://newsapi.org/v2" + URLString
+        
+        AF.request(url, method: method, parameters: parameters, encoding: URLEncoding.default, headers: ["Content-Type": "application/x-www-form-urlencoded"]).validate().responseString(completionHandler: {res in
+            print("responString",res)
+        })
+        .responseDecodable(of: model.self) { response in
             switch response.result {
-            case .success(let data):
-                do {
-                        completion(.success(data))
-                }catch{
-                        completion(.failure(error))
-                    print("String(describing: error)", String(describing: error))
-                    print("error catch: \(error.localizedDescription)")
-                }
+            case .success:
+                print("it's success")
+                completion(response.value)
             case .failure(let error):
-                completion(.failure(error))
-                print("String(describing: error)", String(describing: error))
-                print("error failure: \(error.localizedDescription)")
-                
+                failure(error)
+                print("\n\n===========Error===========")
+                print("Error Code: \(error._code)")
+                print("Error Messsage: \(error.localizedDescription)")
+                if let data = response.data, let str = String(data: data, encoding: String.Encoding.utf8){
+                    print("Server Error: " + str)
+                    
+                }
+                debugPrint(error as Any)
+                print("===========================\n\n")
             }
         }
-        
-        
     }
 }
-
-
