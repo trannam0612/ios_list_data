@@ -26,10 +26,5 @@ class DetailViewController: UIViewController {
             imageItem.kf.indicatorType = .activity
             imageItem.kf.setImage(with: url, placeholder: nil, options: [.transition(.fade(1.0))], progressBlock: nil)
         }
-        
     }
-    
-    
-    
-    
 }

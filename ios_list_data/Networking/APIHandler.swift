@@ -11,18 +11,17 @@ import Alamofire
 struct APIHandler{
     static let sharedIntance = APIHandler()
     func request<T: Decodable>(_ method: HTTPMethod
-                               , _ Path: String
+                               , _ path: String
                                , parameters: Parameters? = [:]
                                , headers: [String : String]? = [:]
                                ,completion:@escaping(Result<T, Error>)-> Void
-                               ,model: T.Type
     ) {
-        let url = "https://newsapi.org/v2" + Path
+        let url = "https://newsapi.org/v2" + path
         
         AF.request(url, method: method, parameters: parameters, encoding: URLEncoding.default, headers: ["Content-Type": "application/x-www-form-urlencoded"]).validate().responseString(completionHandler: {res in
             print("responString",res)
         })
-        .responseDecodable(of: model.self) { response in
+        .responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let data):
                 print("it's success")

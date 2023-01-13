@@ -13,19 +13,17 @@ class APIRepository{
     
     func fetchData(completion:@escaping(Result<ListItemModel, Error>)-> Void, keyword:String?, dateTime:String){
         print("fetchData")
-        let parameters: Parameters = ["q": keyword ?? "tesla","from":dateTime,"sortBy": publishAt, "apiKey":API_KEY]
+        let parameters: Parameters = ["q": keyword ?? "tesla"
+                                      ,"from":dateTime
+                                      ,"sortBy": publishAt
+                                      , "apiKey":API_KEY]
         
         let path = "/everything"
-        APIHandler.sharedIntance.request(.get, path, parameters: parameters, completion: {response in
-            switch response {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
-                
-            }
-            
-        },model: ListItemModel.self)
+        APIHandler.sharedIntance.request(.get
+                                         , path
+                                         , parameters: parameters
+                                         , completion: completion
+        )
     }
 }
 
