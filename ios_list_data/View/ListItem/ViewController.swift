@@ -85,14 +85,22 @@ extension ViewController: ListItemDelegate{
         }
     }
     
-    func failLoad() {
+    func failLoad(_ errorMessage: String) {
         print("delegate failLoad")
-        self.dismissAlert()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.showErrorAlert(errorMessage: self.listItemViewModel.errorMessage ?? "")
-        }
-        
+                self.dismissAlert()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }
     }
+    
+//    func failLoad() { errorMessage in
+//        print("delegate failLoad")
+//        self.dismissAlert()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            self.showErrorAlert(errorMessage: errorMessage ?? "")
+//        }
+//
+//    }
 }
 
 extension ViewController: UITableViewDataSource{

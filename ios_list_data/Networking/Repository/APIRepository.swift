@@ -17,10 +17,13 @@ class APIRepository{
         
         let path = "/everything"
         APIHandler.sharedIntance.request(.get, path, parameters: parameters, completion: {response in
-            completion(.success(response ?? ListItemModel()))
-            
-        }, failure: {error in
-            completion(.failure(error!))
+            switch response {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+                
+            }
             
         },model: ListItemModel.self)
     }
