@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ListDataViewController.swift
 //  ios_list_data
 //
 //  Created by Nam on 09/12/2022.
@@ -7,13 +7,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ListDataViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+//        view.backgroundColor = .blue
     }
-
-
 }
-
